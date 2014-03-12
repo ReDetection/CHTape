@@ -10,14 +10,15 @@
 		8363217418D1066800A7F830 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8363217318D1066800A7F830 /* Cocoa.framework */; };
 		8363217E18D1066800A7F830 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8363217C18D1066800A7F830 /* InfoPlist.strings */; };
 		8363218018D1066800A7F830 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363217F18D1066800A7F830 /* main.m */; };
-		8363218418D1066800A7F830 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8363218218D1066800A7F830 /* Credits.rtf */; };
 		8363218718D1066800A7F830 /* CHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363218618D1066800A7F830 /* CHAppDelegate.m */; };
-		8363218A18D1066800A7F830 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8363218818D1066800A7F830 /* MainMenu.xib */; };
-		8363218C18D1066800A7F830 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8363218B18D1066800A7F830 /* Images.xcassets */; };
 		8363219318D1066800A7F830 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8363219218D1066800A7F830 /* XCTest.framework */; };
 		8363219418D1066800A7F830 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8363217318D1066800A7F830 /* Cocoa.framework */; };
 		8363219C18D1066800A7F830 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8363219A18D1066800A7F830 /* InfoPlist.strings */; };
-		8363219E18D1066800A7F830 /* CHTapeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363219D18D1066800A7F830 /* CHTapeTests.m */; };
+		836321AB18D1067000A7F830 /* CHTape.m in Sources */ = {isa = PBXBuildFile; fileRef = 836321A818D1067000A7F830 /* CHTape.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		836321AC18D1067000A7F830 /* CHTapeCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 836321AA18D1067000A7F830 /* CHTapeCursor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		836321AF18D106C900A7F830 /* CHTapeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 836321AD18D106C900A7F830 /* CHTapeTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		836321B018D106C900A7F830 /* CHTapeCursorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 836321AE18D106C900A7F830 /* CHTapeCursorTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		837BD21518D1081400C9F0A8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 837BD21418D1081400C9F0A8 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,16 +41,19 @@
 		8363217D18D1066800A7F830 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8363217F18D1066800A7F830 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8363218118D1066800A7F830 /* CHTape-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CHTape-Prefix.pch"; sourceTree = "<group>"; };
-		8363218318D1066800A7F830 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		8363218518D1066800A7F830 /* CHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHAppDelegate.h; sourceTree = "<group>"; };
 		8363218618D1066800A7F830 /* CHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAppDelegate.m; sourceTree = "<group>"; };
-		8363218918D1066800A7F830 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		8363218B18D1066800A7F830 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8363219118D1066800A7F830 /* CHTapeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CHTapeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8363219218D1066800A7F830 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		8363219918D1066800A7F830 /* CHTapeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CHTapeTests-Info.plist"; sourceTree = "<group>"; };
 		8363219B18D1066800A7F830 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8363219D18D1066800A7F830 /* CHTapeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHTapeTests.m; sourceTree = "<group>"; };
+		836321A718D1067000A7F830 /* CHTape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTape.h; sourceTree = "<group>"; };
+		836321A818D1067000A7F830 /* CHTape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTape.m; sourceTree = "<group>"; };
+		836321A918D1067000A7F830 /* CHTapeCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTapeCursor.h; sourceTree = "<group>"; };
+		836321AA18D1067000A7F830 /* CHTapeCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTapeCursor.m; sourceTree = "<group>"; };
+		836321AD18D106C900A7F830 /* CHTapeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTapeTests.m; sourceTree = "<group>"; };
+		836321AE18D106C900A7F830 /* CHTapeCursorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTapeCursorTests.m; sourceTree = "<group>"; };
+		837BD21418D1081400C9F0A8 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,8 +121,10 @@
 			children = (
 				8363218518D1066800A7F830 /* CHAppDelegate.h */,
 				8363218618D1066800A7F830 /* CHAppDelegate.m */,
-				8363218818D1066800A7F830 /* MainMenu.xib */,
-				8363218B18D1066800A7F830 /* Images.xcassets */,
+				836321A718D1067000A7F830 /* CHTape.h */,
+				836321A818D1067000A7F830 /* CHTape.m */,
+				836321A918D1067000A7F830 /* CHTapeCursor.h */,
+				836321AA18D1067000A7F830 /* CHTapeCursor.m */,
 				8363217A18D1066800A7F830 /* Supporting Files */,
 			);
 			path = CHTape;
@@ -130,8 +136,8 @@
 				8363217B18D1066800A7F830 /* CHTape-Info.plist */,
 				8363217C18D1066800A7F830 /* InfoPlist.strings */,
 				8363217F18D1066800A7F830 /* main.m */,
+				837BD21418D1081400C9F0A8 /* MainMenu.xib */,
 				8363218118D1066800A7F830 /* CHTape-Prefix.pch */,
-				8363218218D1066800A7F830 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -139,7 +145,8 @@
 		8363219718D1066800A7F830 /* CHTapeTests */ = {
 			isa = PBXGroup;
 			children = (
-				8363219D18D1066800A7F830 /* CHTapeTests.m */,
+				836321AD18D106C900A7F830 /* CHTapeTests.m */,
+				836321AE18D106C900A7F830 /* CHTapeCursorTests.m */,
 				8363219818D1066800A7F830 /* Supporting Files */,
 			);
 			path = CHTapeTests;
@@ -232,9 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8363217E18D1066800A7F830 /* InfoPlist.strings in Resources */,
-				8363218C18D1066800A7F830 /* Images.xcassets in Resources */,
-				8363218418D1066800A7F830 /* Credits.rtf in Resources */,
-				8363218A18D1066800A7F830 /* MainMenu.xib in Resources */,
+				837BD21518D1081400C9F0A8 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +260,8 @@
 			files = (
 				8363218018D1066800A7F830 /* main.m in Sources */,
 				8363218718D1066800A7F830 /* CHAppDelegate.m in Sources */,
+				836321AB18D1067000A7F830 /* CHTape.m in Sources */,
+				836321AC18D1067000A7F830 /* CHTapeCursor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,7 +269,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8363219E18D1066800A7F830 /* CHTapeTests.m in Sources */,
+				836321B018D106C900A7F830 /* CHTapeCursorTests.m in Sources */,
+				836321AF18D106C900A7F830 /* CHTapeTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,22 +291,6 @@
 				8363217D18D1066800A7F830 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		8363218218D1066800A7F830 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8363218318D1066800A7F830 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		8363218818D1066800A7F830 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8363218918D1066800A7F830 /* Base */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		8363219A18D1066800A7F830 /* InfoPlist.strings */ = {
@@ -465,6 +457,7 @@
 				836321A318D1066900A7F830 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		836321A418D1066900A7F830 /* Build configuration list for PBXNativeTarget "CHTapeTests" */ = {
 			isa = XCConfigurationList;
@@ -473,6 +466,7 @@
 				836321A618D1066900A7F830 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
