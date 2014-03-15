@@ -223,7 +223,6 @@
 {
 	if ( self == otherTape)
 	{
-		NSLog(@"TEST");
 		return !!otherTape;
 	}
 	
