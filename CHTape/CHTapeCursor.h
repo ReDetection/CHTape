@@ -79,4 +79,5 @@
 - (void)removeFirstObject;
 - (void)removeObjectAfterCursor;
 - (void)removeObjectBeforeCursor;
+
 @end

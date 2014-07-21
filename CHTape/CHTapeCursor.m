@@ -42,7 +42,7 @@
 
 + (instancetype)cursorWithTape:(CHTape *)aTape;
 {
-    return [[[self alloc] initWithTape:aTape] autorelease];
+	return [[[self alloc] initWithTape:aTape] autorelease];
 }
 
 
@@ -65,7 +65,7 @@
 		previous = NULL;
 	}
 	
-    return self;
+	return self;
 }
 
 
@@ -104,6 +104,7 @@
 {
 	return tape->tail->payload;
 }
+
 
 // Traversal
 #pragma mark Traversal

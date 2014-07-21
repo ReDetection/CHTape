@@ -48,10 +48,10 @@ typedef struct CHTapeNode {
 @interface CHTape : NSObject <NSFastEnumeration, NSCopying>
 {
 	@public
-    NSUInteger count;
-    
+	NSUInteger count;
+	
 	CHTapeNode *head;
-    CHTapeNode *tail;
+	CHTapeNode *tail;
 }
 
 // Static Factories

@@ -23,7 +23,7 @@
 
 - (void)setUp
 {
-    [super setUp];
+	[super setUp];
 	
 	tape = [[CHTape alloc] initWithObjects:@"0", @"1", @"2", @"3", @"4", @"5", nil];
 	
@@ -34,7 +34,7 @@
 
 - (void)tearDown
 {
-    [super tearDown];
+	[super tearDown];
 }
 
 - (void)testInitialization

@@ -44,22 +44,22 @@
 
 + (instancetype)tape
 {
-    return [[[self alloc] init] autorelease];
+	return [[[self alloc] init] autorelease];
 }
 
 + (instancetype)tapeWithTape:(CHTape *)aTape
 {
-    return [[[self alloc] initWithTape:aTape] autorelease];
+	return [[[self alloc] initWithTape:aTape] autorelease];
 }
 
 + (instancetype)tapeWithArray:(NSArray *)anArray
 {
-    return [[[self alloc] initWithArray:anArray] autorelease];
+	return [[[self alloc] initWithArray:anArray] autorelease];
 }
 
 + (instancetype)tapeWithObject:(id)anObject
 {
-    return [[[self alloc] initWithObject:anObject] autorelease];
+	return [[[self alloc] initWithObject:anObject] autorelease];
 }
 
 
@@ -75,7 +75,7 @@
 		tail = NULL;
 	}
 
-    return self;
+	return self;
 }
 
 - (instancetype)initWithTape:(CHTape *)aTape
@@ -108,7 +108,7 @@
 		}
 	}
 	
-    return self;
+	return self;
 }
 
 - (instancetype)initWithArray:(NSArray *)anArray
@@ -141,7 +141,7 @@
 		}
 	}
 	
-    return self;
+	return self;
 }
 
 - (instancetype)initWithObject:(id)anObject
@@ -160,7 +160,7 @@
 		count = 1;
 	}
 	
-    return self;
+	return self;
 }
 
 - (instancetype)initWithObjects:(id)firstObject, ... NS_REQUIRES_NIL_TERMINATION;
@@ -197,7 +197,7 @@
 		va_end(args);
 	}
 	
-    return self;
+	return self;
 }
 
 
@@ -240,8 +240,8 @@
 {
 	if ( [self class] == [otherObject class] )
 	{
-        return [self isEqualToTape:otherObject];
-    }
+		return [self isEqualToTape:otherObject];
+	}
 	
 	return [super isEqual:otherObject];
 }
@@ -361,13 +361,13 @@
 {
 	CHTapeNode *cursor;
 	
-    if (!state->state)
+	if (!state->state)
 	{
 		state->state++;
-        state->mutationsPtr = &state->extra[1];
+		state->mutationsPtr = &state->extra[1];
 		cursor = head;
 		state->itemsPtr = stackBuffer;
-    }
+	}
 	else
 	{
 		cursor = (CHTapeNode *)state->extra[0];
@@ -380,16 +380,16 @@
 	
 	NSUInteger i = 0;
 	
-    while ( cursor && i < len )
+	while ( cursor && i < len )
 	{
-        stackBuffer[i] = cursor->payload;
-        cursor = cursor->next;
+		stackBuffer[i] = cursor->payload;
+		cursor = cursor->next;
 		i++;
-    }
-    
+	}
+	
 	state->extra[0] = (unsigned long)cursor;
 	
-    return i;
+	return i;
 }
 
 - (void)enumerateObjectsUsingBlock:(CHTapeEnumerationBlock)block
