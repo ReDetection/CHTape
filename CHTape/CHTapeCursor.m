@@ -245,14 +245,4 @@
 	[tape removeFirstObject];
 }
 
-- (void)removeObjectAfterCursor
-{
-	// TODO
-}
-
-- (void)removeObjectBeforeCursor
-{
-	// TODO
-}
-
 @end
