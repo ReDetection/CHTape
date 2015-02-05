@@ -14,7 +14,20 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 #import <Cocoa/Cocoa.h>
 
+#import "CHAppDelegate.h"
+
 int main(int argc, const char * argv[])
 {
-	return NSApplicationMain(argc, argv);
+	@autoreleasepool
+	{
+		CHAppDelegate *delegate = [[CHAppDelegate alloc] init];
+		NSApplication *application = [NSApplication sharedApplication];
+		
+		[application setDelegate:delegate];
+		[NSApp run];
+		
+		[delegate release], delegate = nil;
+	}
+	
+	return 0;
 }
