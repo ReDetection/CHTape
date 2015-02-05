@@ -1,6 +1,5 @@
-CHTape
-======
+# CHStack
+A lightweight &amp; fast Objective-C implementation of a doubly linked list, including a cursor for easy traversal.
 
-A fast implementation of a doubly linked list for Objective-C and a cursor for easy traversal.
-
-This collection does not support ARC due to the decrease in speed ARC imposses. To use this in an ARC project add the compiler flag `-fno-objc-arc` to the Compile Sources Build Phase for CHTape.m, and CHTapeCursor.m.
+---
+This collection does not support ARC due to technical and performance issues. To use this with ARC add the compiler flag `-fno-objc-arc` to the 'Compile Sources' build phase of your project for `CHTape.m`, `CHMutableTape.m`, and `CHTapeCursor.m`.
