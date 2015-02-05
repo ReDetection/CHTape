@@ -12,10 +12,11 @@ Permission to use, copy, modify, and/or distribute this software for any purpose
 THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
+#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
 
 #import "CHTape.h"
-#import "CHTapeCursor.h"
 
 @interface CHTapeTests : XCTestCase
 {
@@ -34,7 +35,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 	
 	tape = [[CHTape alloc] initWithObjects:@"0", @"1", @"2", @"3", @"4", @"5", nil];
 	
-	secondTape = [[CHTape alloc] initWithObjects:@"0", @"1", @"2", @"3", @"4", @"5", nil];
+	secondTape = [[CHTape alloc] initWithArray:@[@"0", @"1", @"2", @"3", @"4", @"5"]];
 	
 	array = [@"0 1 2 3 4 5" componentsSeparatedByString:@" "];
 }
@@ -47,22 +48,22 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 - (void)testInitialization
 {
 	XCTAssertNotNil(tape, @"tape is nil. Initialization Failed.");
+	XCTAssertNotNil(secondTape, @"tape is nil. Initialization Failed.");
 }
 
 - (void)testCount
 {
-	NSUInteger count;
-	
-	count = [tape count];
+	NSUInteger count = [tape count];
+    
 	XCTAssertTrue((count == 6), @"Count of tape is incorrect. Is '%ld', should be '6'.", count);
 }
 
 - (void)testHash
 {
-	NSUInteger hash;
-	
-	hash = [tape hash];
-	XCTAssertTrue((hash == 6), @"Hash of tape is incorrect. Is '%ld', should be '6'.", hash);
+	NSUInteger hash = [tape hash];
+    NSUInteger check = ([tape count] ^ [[tape firstObject] hash] ^ [[tape lastObject] hash]);
+    
+    XCTAssertTrue(hash == check, @"Hash of tape is incorrect. Is '%ld', should be '%ld'.", hash, check);
 }
 
 - (void)testCopy
@@ -182,7 +183,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 	[arrayToString deleteCharactersInRange:NSMakeRange([argsToString length] - 1, 1)];
 	[arrayToString appendString:@"]"];
 	
-	XCTAssertTrue([tape isEqualTo:secondTape], @"tape should be equal to tape from array. tape = %@, tape from array = %@", argsToString, arrayToString);
+	XCTAssertTrue([tape isEqual:secondTape], @"tape should be equal to tape from array. tape = %@, tape from array = %@", argsToString, arrayToString);
 	
 	// Too Short
 	
@@ -197,7 +198,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 	[incorrectTapeToString deleteCharactersInRange:NSMakeRange([incorrectTapeToString length] - 1, 1)];
 	[incorrectTapeToString appendString:@"]"];
 	
-	XCTAssertFalse([tape isEqualTo:incorrectTape], @"tape should be equal to tape from array. tape = %@, tape from array = %@", argsToString, incorrectTapeToString);
+	XCTAssertFalse([tape isEqual:incorrectTape], @"Tape should not be equal to tape from array. tape = %@, tape from array = %@", argsToString, incorrectTapeToString);
 	
 	// Wrong Element
 	
