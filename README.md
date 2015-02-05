@@ -1,4 +1,4 @@
-# CHStack
+# CHTape
 A lightweight &amp; fast Objective-C implementation of a doubly linked list, including a cursor for easy traversal.
 
 ---
