@@ -18,7 +18,7 @@
 		836321AC18D1067000A7F830 /* CHTapeCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 836321AA18D1067000A7F830 /* CHTapeCursor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		836321AF18D106C900A7F830 /* CHTapeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 836321AD18D106C900A7F830 /* CHTapeTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		836321B018D106C900A7F830 /* CHTapeCursorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 836321AE18D106C900A7F830 /* CHTapeCursorTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		837BD21518D1081400C9F0A8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 837BD21418D1081400C9F0A8 /* MainMenu.xib */; };
+		83E0E8C71A83F66A001A9F5B /* CHMutableTape.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E0E8C61A83F66A001A9F5B /* CHMutableTape.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +53,8 @@
 		836321AA18D1067000A7F830 /* CHTapeCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTapeCursor.m; sourceTree = "<group>"; };
 		836321AD18D106C900A7F830 /* CHTapeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTapeTests.m; sourceTree = "<group>"; };
 		836321AE18D106C900A7F830 /* CHTapeCursorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTapeCursorTests.m; sourceTree = "<group>"; };
-		837BD21418D1081400C9F0A8 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		83E0E8C51A83F66A001A9F5B /* CHMutableTape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHMutableTape.h; sourceTree = "<group>"; };
+		83E0E8C61A83F66A001A9F5B /* CHMutableTape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHMutableTape.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +124,8 @@
 				8363218618D1066800A7F830 /* CHAppDelegate.m */,
 				836321A718D1067000A7F830 /* CHTape.h */,
 				836321A818D1067000A7F830 /* CHTape.m */,
+				83E0E8C51A83F66A001A9F5B /* CHMutableTape.h */,
+				83E0E8C61A83F66A001A9F5B /* CHMutableTape.m */,
 				836321A918D1067000A7F830 /* CHTapeCursor.h */,
 				836321AA18D1067000A7F830 /* CHTapeCursor.m */,
 				8363217A18D1066800A7F830 /* Supporting Files */,
@@ -136,7 +139,6 @@
 				8363217B18D1066800A7F830 /* CHTape-Info.plist */,
 				8363217C18D1066800A7F830 /* InfoPlist.strings */,
 				8363217F18D1066800A7F830 /* main.m */,
-				837BD21418D1081400C9F0A8 /* MainMenu.xib */,
 				8363218118D1066800A7F830 /* CHTape-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -239,7 +241,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8363217E18D1066800A7F830 /* InfoPlist.strings in Resources */,
-				837BD21518D1081400C9F0A8 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +263,7 @@
 				8363218718D1066800A7F830 /* CHAppDelegate.m in Sources */,
 				836321AB18D1067000A7F830 /* CHTape.m in Sources */,
 				836321AC18D1067000A7F830 /* CHTapeCursor.m in Sources */,
+				83E0E8C71A83F66A001A9F5B /* CHMutableTape.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,10 +378,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CHTape/CHTape-Prefix.pch";
 				INFOPLIST_FILE = "CHTape/CHTape-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -389,10 +394,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CHTape/CHTape-Prefix.pch";
 				INFOPLIST_FILE = "CHTape/CHTape-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
