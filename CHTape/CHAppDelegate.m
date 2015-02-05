@@ -14,6 +14,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 #import "CHAppDelegate.h"
 
+#import "CHMutableTape.h"
 #import "CHTapeCursor.h"
 
 #include <mach/mach.h>
@@ -25,7 +26,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 {
 	//[outputString release];
 	
-	//[self testSpeed];
+	[self testSpeed];
 	//[self testAccuracy];
 	//[self testRemoval];
 	
@@ -35,37 +36,56 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 - (void)testSpeed
 {
 	NSMutableArray *array = [[NSMutableArray alloc] init];
-	CHTape *tape = [[CHTape alloc] init];
+	CHMutableTape *tape = [[CHMutableTape alloc] init];
 	unsigned long long start;
 	
 	unsigned long long tapeDur;
 	unsigned long long arrayDur;
 	
-	unsigned long long tapeAverage = 0;
-	unsigned long long arrayAverage = 0;
+	unsigned long long tapeAccessAverage = 0;
+	unsigned long long arrayAccessAverage = 0;
 	
-	NSMutableString * tapeAccessResult = [NSMutableString stringWithString:@"tapeAccessData = {"];
-	NSMutableString * arrayAccessResult = [NSMutableString stringWithString:@"arrayAccessData = {"];
-	
-	NSMutableString * tapeIterationResult = [NSMutableString stringWithString:@"tapeIterationData = {"];
-	NSMutableString * arrayIterationResult = [NSMutableString stringWithString:@"arrayIterationData = {"];
-	
-	NSString *string;
+	unsigned long long tapeInsertionAverage = 0;
+	unsigned long long arrayInsertionAverage = 0;
 	
 	NSUInteger iterations = 10000;
-	unsigned long long average = 0;
 	
-	for (NSUInteger i = 1; i <= iterations; i++)
+	
+	// Insertion
 	{
-		[tape appendObject:@""];
-		[array addObject:@""];
+		start = mach_absolute_time();
+		for (NSUInteger i = 0; i <= iterations; i++)
+		{
+			[tape appendObject:[NSString stringWithFormat:@"%lu", i]];
+		}
+		tapeDur = mach_absolute_time() - start;
+		
+		start = mach_absolute_time();
+		for (NSUInteger i = 0; i <= iterations; i++)
+		{
+			[array addObject:[NSString stringWithFormat:@"%lu", i]];
+		}
+		arrayDur = mach_absolute_time() - start;
+		
+		
+		// Results
+		
+		tapeInsertionAverage += (tapeDur/[tape count]);
+		arrayInsertionAverage += (arrayDur/[array count]);
+	}
+	
+	
+	// Access
+	{
+		NSInteger value = 0;
 		
 		// CHTape
 		
 		start = mach_absolute_time();
-		for (string in tape)
+		for (NSString *string in tape)
 		{
-			
+			// Do some work so optimizer doesn't remove loop.
+			value += [string integerValue];
 		}
 		tapeDur = mach_absolute_time() - start;
 		
@@ -73,63 +93,30 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 		// NSArray
 		
 		start = mach_absolute_time();
-		for (string in array)
+		for (NSString *string in array)
 		{
-			
+			// Do some work so optimizer doesn't remove loop.
+			value += [string integerValue];
 		}
 		arrayDur = mach_absolute_time() - start;
-		
-		
+			
+			
 		// Results
 		
-		average = tapeDur/[tape count];
-		[tapeAccessResult appendFormat:@"{%ld,%lld}", i, average];
-		[tapeIterationResult appendFormat:@"{%ld,%lld}", i, tapeDur];
-		
-		average = arrayDur/[array count];
-		[arrayAccessResult appendFormat:@"{%ld,%lld}", i, average];
-		[arrayIterationResult appendFormat:@"{%ld,%lld}", i, (arrayDur)];
-		
-		tapeAverage += (tapeDur/[tape count]);
-		arrayAverage += (arrayDur/[array count]);
-		
-		if ( i != iterations)
-		{
-			[tapeAccessResult appendString:@","];
-			[arrayAccessResult appendString:@","];
-			
-			[tapeIterationResult appendString:@","];
-			[arrayIterationResult appendString:@","];
-		}
-		
+		tapeAccessAverage = (tapeDur/[tape count]);
+		arrayAccessAverage = (arrayDur/[array count]);
 	}
+
+	NSLog(@"Tape Average Access Time (ns): %lld", tapeAccessAverage);
+	NSLog(@"Array Average Access Time (ns): %lld", arrayAccessAverage);
 	
-	[tapeAccessResult appendString:@"};\n"];
-	[arrayAccessResult appendString:@"};\n"];
-	[tapeIterationResult appendString:@"};\n"];
-	[arrayIterationResult appendString:@"};\n"];
-	
-	NSMutableString *plot = [[NSMutableString alloc] init];
-	
-	[plot appendString:tapeAccessResult];
-	[plot appendString:arrayAccessResult];
-	[plot appendString:tapeIterationResult];
-	[plot appendString:arrayIterationResult];
-	
-	[plot appendString:@"ListPlot[{tapeAccessData, arrayAccessData}, ImageSize -> {1280, 720}, AxesLabel -> {Elements,Nanoseconds}, PlotLabel -> \"Access Speeds to Individual Elements\", Joined -> False, PlotLegends -> {\"CHTape\", \"NSArray\"}]\n"];
-	[plot appendString:@"ListPlot[{tapeIterationData, arrayIterationData}, ImageSize -> {1280, 720}, AxesLabel -> {Elements,Nanoseconds}, PlotLabel -> \"Time to Iterate Over All Elements\", Joined -> True, PlotLegends -> {\"CHTape\", \"NSArray\"}]"];
-	
-	[plot writeToFile:[@"~/Desktop/results.txt" stringByExpandingTildeInPath] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-	
-	//NSLog(@"%@", plot);
-	
-	NSLog(@"Tape Average : %lld", tapeAverage/iterations);
-	NSLog(@"Array Average: %lld", arrayAverage/iterations);
+	NSLog(@"Tape Average Insertion Time (ns): %lld", tapeInsertionAverage);
+	NSLog(@"Array Average Insertion Time (ns): %lld", arrayInsertionAverage);
 }
 
 - (void)testAccuracy
 {
-	CHTape *tape = [[CHTape alloc] init];
+	CHMutableTape *tape = [[CHMutableTape alloc] init];
 	
 	[tape appendObject:@"This"];
 	[tape appendObject:@"Is"];
@@ -220,7 +207,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 - (void)testRemoval
 {
-	CHTape *tape = [[CHTape alloc] init];
+	CHMutableTape *tape = [[CHMutableTape alloc] init];
 	
 	[tape appendObject:@"This"];
 	[tape appendObject:@"Is"];
@@ -233,7 +220,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 - (void)testPrinting
 {
-	CHTape *tape = [[CHTape alloc] init];
+	CHMutableTape *tape = [[CHMutableTape alloc] init];
 	
 	[tape appendObject:@"This"];
 	[tape appendObject:@"Is"];
