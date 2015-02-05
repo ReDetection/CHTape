@@ -17,7 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 typedef void(^CHTapeEnumerationBlock)(id object, NSUInteger index);
 
 typedef struct CHTapeNode {
-	__unsafe_unretained id payload;
+	id payload;
 	struct CHTapeNode *next;
 	struct CHTapeNode *previous;
 } CHTapeNode;
@@ -25,49 +25,101 @@ typedef struct CHTapeNode {
 
 @class CHTapeCursor;
 
-@interface CHTape : NSObject <NSFastEnumeration, NSCopying>
+@interface CHTape : NSObject <NSCopying, NSMutableCopying, NSFastEnumeration>
 {
-	@public
-	NSUInteger count;
-	
-	CHTapeNode *head;
-	CHTapeNode *tail;
+    @public
+    CHTapeNode *_head;
+    CHTapeNode *_tail;
+    
+	NSUInteger _count;
 }
 
-// Static Factories
+
+// Constructors
+#pragma mark - Constructors
+
 + (instancetype)tape;
 + (instancetype)tapeWithTape:(CHTape *)aTape;
 + (instancetype)tapeWithArray:(NSArray *)anArray;
 + (instancetype)tapeWithObject:(id)anObject;
 
+
 // Initializers
+#pragma mark - Initializers
+
 - (instancetype)init;
 - (instancetype)initWithTape:(CHTape *)aTape;
 - (instancetype)initWithArray:(NSArray *)anArray;
 - (instancetype)initWithObject:(id)anObject;
 - (instancetype)initWithObjects:(id)firstObject, ... NS_REQUIRES_NIL_TERMINATION;
 
+
 // Destructor
+#pragma mark - Destructor
+
 - (void)dealloc;
 
+
+// Copying
+#pragma mark - Copying
+
+- (id)copyWithZone:(NSZone *)zone;
+
+
 // Equality
-- (BOOL)isEqual:(id)otherObject;
-- (BOOL)isEqualToTape:(CHTape *)otherTape;
+#pragma mark - Equality
+
+- (BOOL)isEqual:(id)object;
+- (BOOL)isEqualToTape:(CHTape *)tape;
+
 - (NSUInteger)hash;
 
-// Properties
-@property(readonly) NSUInteger count;
-@property(readonly) id firstObject;
-@property(readonly) id lastObject;
-@property(readonly) NSArray *allObjects;
 
-// Enumerations
+// Properties
+#pragma mark - Properties
+
+@property(readonly, nonatomic) NSUInteger count;
+@property(readonly, nonatomic) id firstObject;
+@property(readonly, nonatomic) id lastObject;
+@property(readonly, nonatomic) NSArray *allObjects;
+
+
+// Emptyness
+#pragma mark - Emptyness
+
+@property(readonly, nonatomic) BOOL isEmpty;
+
+
+// Description
+#pragma mark - Description
+
+- (NSString *)description;
+
+
+// Enumerators
+#pragma mark - Enumerators
+
 - (NSEnumerator *)objectEnumerator;
 - (CHTapeCursor *)cursor;
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])stackbuf count:(NSUInteger)stackbufLength;
+
+
+// Fast Enumeration
+#pragma mark - Fast Enumeration
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id [])stackBuffer count:(NSUInteger)length;
+
+
+// Block Enumeration
+#pragma mark - Block Enumeration
+
 - (void)enumerateObjectsUsingBlock:(CHTapeEnumerationBlock)block;
 - (void)enumerateObjectsWithOptions:(NSEnumerationOptions)options usingBlock:(CHTapeEnumerationBlock)block;
 
 
+// Tape Node Functions
+#pragma mark - Tape Node Functions
+
+CHTapeNode *CHMakeTapeNode(id payload, CHTapeNode *previous, CHTapeNode *next);
+void CHReleaseTapeNode(CHTapeNode *node);
 
 @end

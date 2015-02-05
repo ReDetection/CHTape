@@ -13,14 +13,15 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 */
 
 #import "CHTape.h"
+#import "CHMutableTape.h"
 
 #import "CHTapeCursor.h"
 
 @implementation CHTape
 
 
-// Static Factories
-#pragma mark Static Factories
+// Constructors
+#pragma mark - Constructors
 
 + (instancetype)tape
 {
@@ -44,15 +45,15 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 
 // Initializers
-#pragma mark Initializers
+#pragma mark - Initializers
 
 - (instancetype)init
 {
 	if ( (self = [super init]) )
 	{
-		count = 0;
-		head = NULL;
-		tail = NULL;
+		_count = 0;
+		_head = NULL;
+		_tail = NULL;
 	}
 
 	return self;
@@ -62,29 +63,22 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 {
 	if ( (self = [self init]) )
 	{
-		for (id anObject in aTape)
+		_count = [aTape count];
+		
+		for (id object in aTape)
 		{
-			if (anObject == nil) continue;
+			if (object == nil) continue;
 			
-			CHTapeNode *node = (CHTapeNode *)malloc(sizeof(CHTapeNode));
-			
-			node->payload = [anObject retain];
-			node->next = NULL;
-			
-			if (!count)
+			if ( _head == NULL )
 			{
-				head = node;
-				node->previous = NULL;
+				_head = CHMakeTapeNode(object, NULL, NULL);
+				_tail = _head;
 			}
 			else
 			{
-				node->previous = tail;
-				tail->next = node;
+				_tail->next = CHMakeTapeNode(object, _tail, NULL);
+				_tail = _tail->next;
 			}
-			
-			tail = node;
-			
-			count++;
 		}
 	}
 	
@@ -95,85 +89,66 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 {
 	if ( (self = [self init]) )
 	{
-		for (id anObject in anArray)
+		_count = [anArray count];
+		
+		for (id object in anArray)
 		{
-			if (anObject == nil) continue;
-			
-			CHTapeNode *node = (CHTapeNode *)malloc(sizeof(CHTapeNode));
-			
-			node->payload = [anObject retain];
-			node->next = NULL;
-			
-			if (!count)
+			if ( _head == NULL )
 			{
-				head = node;
-				node->previous = NULL;
+				_head = CHMakeTapeNode(object, NULL, NULL);
+				_tail = _head;
 			}
 			else
 			{
-				node->previous = tail;
-				tail->next = node;
+				_tail->next = CHMakeTapeNode(object, _tail, NULL);
+				_tail = _tail->next;
 			}
-			
-			tail = node;
-			
-			count++;
 		}
 	}
 	
 	return self;
 }
 
-- (instancetype)initWithObject:(id)anObject
+- (instancetype)initWithObject:(id)object
 {
-	if ( (self = [self init]) && anObject )
+	if ( (self = [self init]) && object )
 	{
-		CHTapeNode *node = (CHTapeNode *)malloc(sizeof(CHTapeNode));
+		_head = CHMakeTapeNode(object, NULL, NULL);
+		_tail = _head;
 			
-		node->payload = [anObject retain];
-		node->next = NULL;
-			
-		head = node;
-		node->previous = NULL;
-		tail = node;
-			
-		count = 1;
+		_count = 1;
 	}
 	
 	return self;
 }
 
-- (instancetype)initWithObjects:(id)firstObject, ... NS_REQUIRES_NIL_TERMINATION;
+- (instancetype)initWithObjects:(id)firstObject, ... NS_REQUIRES_NIL_TERMINATION
 {
 	if ( (self = [self init]) )
 	{
 		va_list args;
-		id anObject = firstObject;
+		id object = firstObject;
+		
 		va_start(args, firstObject);
-		while ( anObject )
+		
+		while ( object )
 		{
-			CHTapeNode *node = (CHTapeNode *)malloc(sizeof(CHTapeNode));
-			
-			node->payload = [anObject retain];
-			node->next = NULL;
-			
-			if (!count)
+			if ( _head == NULL )
 			{
-				head = node;
-				node->previous = NULL;
+				_head = CHMakeTapeNode(object, NULL, NULL);
+				_tail = _head;
 			}
 			else
 			{
-				node->previous = tail;
-				tail->next = node;
+				_tail->next = CHMakeTapeNode(object, _tail, NULL);
+				_tail = _tail->next;
 			}
 			
-			tail = node;
+            _count++;
 			
-			count++;
-			
-			anObject = va_arg(args, id);
+			object = va_arg(args, id);
 		}
+		
 		va_end(args);
 	}
 	
@@ -181,72 +156,62 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 }
 
 
-// Copier
-#pragma mark Copier
-
-- (instancetype)copyWithZone:(NSZone *)zone
-{
-	return [[CHTape allocWithZone:zone] initWithTape:self];
-}
-
-
 // Destructor
-#pragma mark Destructor
+#pragma mark - Destructor
 
 - (void)dealloc
 {
-	count = 0;
+	_count = 0;
 	CHTapeNode *zombie;
 	
-	while ( head )
+	while ( _head )
 	{
-		zombie = head;
-		head = head->next;
+		zombie = _head;
+		_head = _head->next;
 		
-		[zombie->payload release];
-		zombie->payload = nil;
-		
-		free(zombie);
+		CHReleaseTapeNode(zombie);
 	}
 	
 	[super dealloc];
 }
 
 
-// Equality
-#pragma mark Equality
+// Copying
+#pragma mark - Copying
 
-- (BOOL)isEqual:(id)otherObject
+- (id)copyWithZone:(NSZone *)zone
 {
-	if ( [self class] == [otherObject class] )
-	{
-		return [self isEqualToTape:otherObject];
-	}
-	
-	return [super isEqual:otherObject];
+    return [[CHTape allocWithZone:zone] initWithTape:self];
 }
 
-- (BOOL)isEqualToTape:(CHTape *)otherTape
+- (id)mutableCopyWithZone:(NSZone *)zone
 {
-	if ( self == otherTape)
-	{
-		return !!otherTape;
-	}
+	return [[CHMutableTape allocWithZone:zone] initWithTape:self];
+}
+
+
+// Equality
+#pragma mark - Equality
+
+- (BOOL)isEqual:(id)object
+{
+    if ( self == object ) { return YES; }
+    
+    if ( ![object isKindOfClass:[CHTape class]] ) { return NO; }
+
+	return [self isEqualToTape:(CHTape *)object];
+}
+
+- (BOOL)isEqualToTape:(CHTape *)tape
+{
+	if ( !tape || [self count] != [tape count] ) { return NO; }
 	
-	if ( [self count] != [otherTape count] )
-	{
-		return NO;
-	}
-	
-	CHTapeNode *first = head;
-	CHTapeNode *second = otherTape->head;
+	CHTapeNode *first = _head;
+	CHTapeNode *second = tape->_head;
 	
 	while ( first && second )
 	{
-		if ( ![first->payload isEqualTo:second->payload] )
-		{
-			return NO;
-		}
+		if ( ![first->payload isEqual:second->payload] ) { return NO; }
 		
 		first = first->next;
 		second = second->next;
@@ -257,75 +222,73 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 - (NSUInteger)hash
 {
-	return count;
+	return _count ^ [_head->payload hash] ^ [_tail->payload hash];
 }
 
 
 // Properties
-#pragma mark Properties
-
-@synthesize count;
+#pragma mark - Properties
 
 - (id)firstObject
 {
-	if ( head )
-	{
-		return head->payload;
-	}
-	
-	return nil;
+    return ( _head == NULL ) ? nil : _head->payload;
 }
 
 - (id)lastObject
 {
-	if ( tail )
-	{
-		return tail->payload;
-	}
-	
-	return nil;
+    return ( _tail == NULL ) ? nil : _tail->payload;
 }
 
 - (NSArray *)allObjects
 {
-	CHTapeNode *node = head;
 	NSMutableArray *array = [NSMutableArray array];
 	
-	while ( node )
+	for (id node in self)
 	{
-		[array addObject:node->payload];
-		
-		node = node->next;
+		[array addObject:node];
 	}
 	
 	return array;
 }
 
-- (NSString *)description
+
+// Emptyness
+#pragma mark - Emptyness
+
+- (BOOL)isEmpty
 {
-	CHTapeNode *cursor = head;
-	NSMutableString *string = [[NSMutableString alloc] initWithString:@"("];
-	
-	if ( cursor )
-	{
-		[string appendFormat:@"\n\t%@", cursor->payload];
-		cursor = cursor->next;
-	}
-	
-	while ( cursor )
-	{
-		[string appendFormat:@",\n\t%@", cursor->payload];
-		cursor = cursor->next;
-	}
-	
-	[string appendString:@"\n)"];
-	
-	return string;
+    return ( _head == NULL || _tail == NULL );
 }
 
 
-// Enumerations
-#pragma mark Enumerations
+// Description
+#pragma mark - Description
+
+- (NSString *)description
+{
+    CHTapeNode *cursor = _head;
+    NSMutableString *string = [[[NSMutableString alloc] initWithString:@"("] autorelease];
+    
+    if ( cursor )
+    {
+        [string appendFormat:@"\n\t%@", cursor->payload];
+        cursor = cursor->next;
+    }
+    
+    while ( cursor )
+    {
+        [string appendFormat:@",\n\t%@", cursor->payload];
+        cursor = cursor->next;
+    }
+    
+    [string appendString:@"\n)"];
+    
+    return string;
+}
+
+
+// Enumerators
+#pragma mark - Enumerators
 
 - (NSEnumerator *)objectEnumerator
 {
@@ -337,30 +300,23 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 	return [CHTapeCursor cursorWithTape:self];
 }
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])stackBuffer count:(NSUInteger)len
+
+// Fast Enumeration
+#pragma mark - Fast Enumeration
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id [])stackBuffer count:(NSUInteger)length
 {
-	CHTapeNode *cursor;
+    CHTapeNode *cursor = state->state ? (CHTapeNode *)state->extra[0] : _head;
 	
-	if (!state->state)
-	{
-		state->state++;
-		state->mutationsPtr = &state->extra[1];
-		cursor = head;
-		state->itemsPtr = stackBuffer;
-	}
-	else
-	{
-		cursor = (CHTapeNode *)state->extra[0];
-	}
-	
-	if ( !cursor )
-	{
-		return 0;
-	}
-	
+    if ( cursor == NULL ) { return 0; }
+    
+    state->state++;
+    state->mutationsPtr = &state->extra[1];
+    state->itemsPtr = stackBuffer;
+    
 	NSUInteger i = 0;
 	
-	while ( cursor && i < len )
+	while ( cursor && i < length )
 	{
 		stackBuffer[i] = cursor->payload;
 		cursor = cursor->next;
@@ -372,10 +328,14 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 	return i;
 }
 
+
+// Block Enumeration
+#pragma mark - Block Enumeration
+
 - (void)enumerateObjectsUsingBlock:(CHTapeEnumerationBlock)block
 {
 	NSUInteger index = 0;
-	CHTapeNode *cursor = head;
+	CHTapeNode *cursor = _head;
 	
 	while ( cursor )
 	{
@@ -390,8 +350,8 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 {
 	if ( (options & NSEnumerationReverse) )
 	{
-		NSUInteger index = count - 1;
-		CHTapeNode *cursor = tail;
+		NSUInteger index = _count - 1;
+		CHTapeNode *cursor = _tail;
 		
 		while ( cursor )
 		{
@@ -408,15 +368,26 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 }
 
 
+// Tape Node Functions
+#pragma mark - Tape Node Functions
 
+inline CHTapeNode *CHMakeTapeNode(id payload, CHTapeNode *previous, CHTapeNode *next)
 {
 	CHTapeNode *node = (CHTapeNode *)malloc(sizeof(CHTapeNode));
 	
+	node->payload = [payload retain];
+	node->previous = previous;
+	node->next = next;
 	
+	return node;
 }
 
+inline void CHReleaseTapeNode(CHTapeNode *node)
 {
+	[node->payload release];
+	node->payload = nil;
 	
+	free(node);
 }
 
 @end

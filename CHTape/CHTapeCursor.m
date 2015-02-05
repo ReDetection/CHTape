@@ -41,7 +41,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 		index = 0;
 		tape = [aTape retain];
 		
-		next = tape->head;
+		next = tape->_head;
 		previous = NULL;
 	}
 	
@@ -72,17 +72,17 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 - (NSUInteger)count
 {
-	return tape->count;
+	return tape->_count;
 }
 
 - (id)firstObject
 {
-	return tape->head->payload;
+	return tape->_head->payload;
 }
 
 - (id)lastObject
 {
-	return tape->tail->payload;
+	return tape->_tail->payload;
 }
 
 
@@ -92,15 +92,15 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 - (void)moveFirstObject
 {
 	index = 0;
-	next = tape->head;
+	next = tape->_head;
 	previous = NULL;
 }
 
 - (void)moveToLastObject
 {
-	index = tape->count - 1;
+	index = tape->_count - 1;
 	next = NULL;
-	previous = tape->tail;
+	previous = tape->_tail;
 }
 
 - (id)nextObject
@@ -165,7 +165,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 	
 	node->payload = [anObject retain];
 	
-	if ( tape->count )
+	if ( tape->_count )
 	{
 		node->next = next;
 		node->previous = previous;
@@ -181,7 +181,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 	
 	next = node;
 	
-	tape->count++;
+	tape->_count++;
 }
 
 - (void)insertObjectBeforeCursor:(id)anObject
@@ -190,7 +190,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 	
 	CHTapeNode *node = (CHTapeNode *)malloc(sizeof(CHTapeNode));
 	
-	if ( tape->count )
+	if ( tape->_count )
 	{
 		node->payload = [anObject retain];
 		
@@ -208,7 +208,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 	
 	previous = node;
 	
-	tape->count++;
+	tape->_count++;
 }
 
 
