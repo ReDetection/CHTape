@@ -68,12 +68,6 @@ typedef struct CHTapeNode {
 - (void)enumerateObjectsUsingBlock:(CHTapeEnumerationBlock)block;
 - (void)enumerateObjectsWithOptions:(NSEnumerationOptions)options usingBlock:(CHTapeEnumerationBlock)block;
 
-// Node Addition
-- (void)appendObject:(id)anObject;
-- (void)prependObject:(id)anObject;
 
-// Node Removal
-- (void)removeLastObject;
-- (void)removeFirstObject;
 
 @end

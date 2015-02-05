@@ -408,95 +408,15 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 }
 
 
-// Node Addition
-#pragma mark Node Addition
 
-- (void)appendObject:(id)anObject
 {
-	if (anObject == nil) return;
-	
 	CHTapeNode *node = (CHTapeNode *)malloc(sizeof(CHTapeNode));
 	
-	node->payload = [anObject retain];
-	node->next = NULL;
 	
-	if (!count)
-	{
-		head = node;
-		node->previous = NULL;
-	}
-	else
-	{
-		node->previous = tail;
-		tail->next = node;
-	}
-	
-	tail = node;
-	
-	count++;
 }
 
-- (void)prependObject:(id)anObject
 {
-	if (anObject == nil) return;
 	
-	CHTapeNode *node = (CHTapeNode *)malloc(sizeof(CHTapeNode));
-	
-	node->payload = [anObject retain];
-	node->previous = NULL;
-	
-	if (!count)
-	{
-		tail = node;
-		node->next = NULL;
-	}
-	else
-	{
-		node->next = head;
-		head->previous = node;
-	}
-	
-	head = node;
-	
-	count++;
-}
-
-
-// Node Removal
-#pragma mark Node Removal
-
-- (void)removeLastObject
-{
-	if ( tail )
-	{
-		CHTapeNode *zombie = tail;
-		tail = tail->previous;
-		tail->next = NULL;
-		
-		[zombie->payload release];
-		zombie->payload = nil;
-		
-		free(zombie);
-		
-		count--;
-	}
-}
-
-- (void)removeFirstObject
-{
-	if ( head )
-	{
-		CHTapeNode *zombie = head;
-		head = head->next;
-		head->previous = NULL;
-		
-		[zombie->payload release];
-		zombie->payload = nil;
-		
-		free(zombie);
-		
-		count--;
-	}
 }
 
 @end
