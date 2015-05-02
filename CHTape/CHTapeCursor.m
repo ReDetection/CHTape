@@ -135,12 +135,12 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 - (id)nextObjectPeek
 {
-	return next->payload;
+    return next != NULL ? next->payload : nil;
 }
 
 - (id)previousObjectPeek
 {
-	return previous->payload;
+    return previous != NULL ? previous->payload : nil;
 }
 
 
