@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "5.0"
   s.osx.deployment_target = "10.7"
-  s.source       = { :git => "https://github.com/chris-huxtable/CHTape.git", :commit => "32850c0f3add59e6b572e7ffa9e18f0d99f35fcf" }
+  s.source       = { :git => "https://github.com/chris-huxtable/CHTape.git", :commit => "818b8c7c15f4ebded4525c3aa45cb7dc6e4cafb8" }
 
   s.source_files  = "CHTape/*Tape*.{h,m}"
   s.public_header_files = "CHTape/*Tape*.h"
