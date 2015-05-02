@@ -304,7 +304,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 // Fast Enumeration
 #pragma mark - Fast Enumeration
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id [])stackBuffer count:(NSUInteger)length
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])stackBuffer count:(NSUInteger)length
 {
     CHTapeNode *cursor = state->state ? (CHTapeNode *)state->extra[0] : _head;
 	

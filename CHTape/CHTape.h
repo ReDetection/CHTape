@@ -106,7 +106,7 @@ typedef struct CHTapeNode {
 // Fast Enumeration
 #pragma mark - Fast Enumeration
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id [])stackBuffer count:(NSUInteger)length;
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])stackBuffer count:(NSUInteger)length;
 
 
 // Block Enumeration
